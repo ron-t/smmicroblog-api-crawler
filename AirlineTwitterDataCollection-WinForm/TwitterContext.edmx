@@ -1,0 +1,936 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Edmx Version="3.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <Runtime>
+    <ConceptualModels>
+      <Schema Namespace="AirlineTwitterDataCollection" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Friendship" customannotation:ClrType="AirlineTwitterDataCollection.Friendship, AirlineTwitterDataCollection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="FollowerId" />
+          </Key>
+          <Property Name="UserId" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="FollowerId" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="WhenSaved" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TwitterStatus" customannotation:ClrType="Twitterizer.TwitterStatus, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Scale="0" Nullable="false" Precision="20" />
+          <Property Name="StringId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsTruncated" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <Property Name="Source" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InReplyToScreenName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InReplyToUserId" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="InReplyToStatusId" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="IsFavorited" Type="Boolean" />
+          <Property Name="FavoriteCountString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RetweetCountString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Retweeted" Type="Boolean" Nullable="false" />
+          <Property Name="QuotedStatusId" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="QuotedStatusStringId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Entities" Relationship="Self.TwitterStatus_Entities" FromRole="TwitterStatus_Entities_Source" ToRole="TwitterStatus_Entities_Target" />
+          <NavigationProperty Name="Geo" Relationship="Self.TwitterStatus_Geo" FromRole="TwitterStatus_Geo_Source" ToRole="TwitterStatus_Geo_Target" />
+          <NavigationProperty Name="Place" Relationship="Self.TwitterStatus_Place" FromRole="TwitterStatus_Place_Source" ToRole="TwitterStatus_Place_Target" />
+          <NavigationProperty Name="QuotedStatus" Relationship="Self.TwitterStatus_QuotedStatus" FromRole="TwitterStatus_QuotedStatus_Source" ToRole="TwitterStatus_QuotedStatus_Target" />
+          <NavigationProperty Name="RetweetedStatus" Relationship="Self.TwitterStatus_RetweetedStatus" FromRole="TwitterStatus_RetweetedStatus_Source" ToRole="TwitterStatus_RetweetedStatus_Target" />
+          <NavigationProperty Name="User" Relationship="Self.TwitterUser_Status" FromRole="TwitterUser_Status_Target" ToRole="TwitterUser_Status_Source" />
+        </EntityType>
+        <EntityType Name="TwitterEntity" customannotation:ClrType="Twitterizer.Entities.TwitterEntity, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567">
+          <Key>
+            <PropertyRef Name="TwitterEntityId" />
+          </Key>
+          <Property Name="TwitterEntityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartIndex" Type="Int32" Nullable="false" />
+          <Property Name="EndIndex" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TwitterHashTagEntity" customannotation:ClrType="Twitterizer.Entities.TwitterHashTagEntity, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567" BaseType="Self.TwitterEntity">
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TwitterMentionEntity" customannotation:ClrType="Twitterizer.Entities.TwitterMentionEntity, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567" BaseType="Self.TwitterEntity">
+          <Property Name="ScreenName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TwitterUrlEntity" customannotation:ClrType="Twitterizer.Entities.TwitterUrlEntity, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567" BaseType="Self.TwitterEntity">
+          <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpandedUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TwitterMediaEntity" customannotation:ClrType="Twitterizer.Entities.TwitterMediaEntity, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567" BaseType="Self.TwitterUrlEntity">
+          <Property Name="MediaType" Type="Self.MediaTypes" Nullable="false" />
+          <Property Name="Id" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IdString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MediaUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MediaUrlSecure" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sizes" Relationship="Self.TwitterMediaEntity_Sizes" FromRole="TwitterMediaEntity_Sizes_Source" ToRole="TwitterMediaEntity_Sizes_Target" />
+        </EntityType>
+        <EntityType Name="MediaSize" customannotation:ClrType="Twitterizer.Entities.TwitterMediaEntity+MediaSize, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Size" Type="Self.MediaSizes" Nullable="false" />
+          <Property Name="Width" Type="Int32" Nullable="false" />
+          <Property Name="Height" Type="Int32" Nullable="false" />
+          <Property Name="Resize" Type="Self.MediaSizeResizes" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TwitterGeo" customannotation:ClrType="Twitterizer.TwitterGeo, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShapeType" Type="Self.TwitterGeoShapeType" Nullable="false" />
+          <NavigationProperty Name="Coordinates" Relationship="Self.TwitterGeo_Coordinates" FromRole="TwitterGeo_Coordinates_Source" ToRole="TwitterGeo_Coordinates_Target" />
+        </EntityType>
+        <EntityType Name="Coordinate" customannotation:ClrType="Twitterizer.Coordinate, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Latitude" Type="Double" Nullable="false" />
+          <Property Name="Longitude" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TwitterPlace" customannotation:ClrType="Twitterizer.TwitterPlace, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StreetAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Locality" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Iso3CountryCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AppIds" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BoundingBox" Relationship="Self.TwitterPlace_BoundingBox" FromRole="TwitterPlace_BoundingBox_Source" ToRole="TwitterPlace_BoundingBox_Target" />
+        </EntityType>
+        <EntityType Name="TwitterBoundingBox" customannotation:ClrType="Twitterizer.TwitterBoundingBox, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Coordinates" Relationship="Self.TwitterBoundingBox_Coordinates" FromRole="TwitterBoundingBox_Coordinates_Source" ToRole="TwitterBoundingBox_Coordinates_Target" />
+        </EntityType>
+        <EntityType Name="TwitterUser" customannotation:ClrType="Twitterizer.TwitterUser, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="StringId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDefaultProfile" Type="Boolean" Nullable="false" />
+          <Property Name="IsDefaultProfileImage" Type="Boolean" Nullable="false" />
+          <Property Name="IsTranslator" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" />
+          <Property Name="TimeZone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfFollowers" Type="Int64" />
+          <Property Name="NumberOfStatuses" Type="Int64" Nullable="false" />
+          <Property Name="NumberOfFriends" Type="Int64" Nullable="false" />
+          <Property Name="IsContributorsEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="Language" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ScreenName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfFavorites" Type="Int64" Nullable="false" />
+          <Property Name="IsProtected" Type="Boolean" Nullable="false" />
+          <Property Name="IsGeoEnabled" Type="Boolean" />
+          <Property Name="CountriesWithheld" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WithheldScope" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeZoneOffset" Type="Double" />
+          <Property Name="Website" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ListedCount" Type="Int32" Nullable="false" />
+          <Property Name="FollowRequestSent" Type="Boolean" />
+          <Property Name="Verified" Type="Boolean" />
+          <Property Name="ProfileBackgroundColorString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsProfileBackgroundTiled" Type="Boolean" />
+          <Property Name="ProfileLinkColorString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfileBackgroundImageLocation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UseProfileBackgroundImage" Type="Boolean" Nullable="false" />
+          <Property Name="ProfileBannerLocation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfileTextColorString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfileImageLocation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfileImageSecureLocation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfileSidebarBorderColorString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfileSidebarFillColorString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Statuses" Relationship="AirlineTwitterDataCollection.TwitterUser_Status" FromRole="TwitterUser_Status_Source" ToRole="TwitterUser_Status_Target" />
+        </EntityType>
+        <EnumType Name="MediaTypes" IsFlags="false" customannotation:ClrType="Twitterizer.Entities.TwitterMediaEntity+MediaTypes, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567" UnderlyingType="Int32">
+          <Member Name="Unknown" Value="0" />
+          <Member Name="Photo" Value="1" />
+        </EnumType>
+        <EnumType Name="MediaSizes" IsFlags="false" customannotation:ClrType="Twitterizer.Entities.TwitterMediaEntity+MediaSize+MediaSizes, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567" UnderlyingType="Int32">
+          <Member Name="Unknown" Value="0" />
+          <Member Name="Thumb" Value="1" />
+          <Member Name="Small" Value="2" />
+          <Member Name="Medium" Value="3" />
+          <Member Name="Large" Value="4" />
+        </EnumType>
+        <EnumType Name="MediaSizeResizes" IsFlags="false" customannotation:ClrType="Twitterizer.Entities.TwitterMediaEntity+MediaSize+MediaSizeResizes, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567" UnderlyingType="Int32">
+          <Member Name="Unknown" Value="0" />
+          <Member Name="Crop" Value="1" />
+          <Member Name="Fit" Value="2" />
+        </EnumType>
+        <EnumType Name="TwitterGeoShapeType" IsFlags="false" customannotation:ClrType="Twitterizer.TwitterGeoShapeType, Twitterizer2, Version=2.4.2.18339, Culture=neutral, PublicKeyToken=69d1469eac671567" UnderlyingType="Int32">
+          <Member Name="Point" Value="0" />
+          <Member Name="LineString" Value="1" />
+          <Member Name="Polygon" Value="2" />
+          <Member Name="CircleByCenterPoint" Value="3" />
+        </EnumType>
+        <Association Name="TwitterMediaEntity_Sizes">
+          <End Role="TwitterMediaEntity_Sizes_Source" Type="Self.TwitterMediaEntity" Multiplicity="0..1" />
+          <End Role="TwitterMediaEntity_Sizes_Target" Type="Self.MediaSize" Multiplicity="*" />
+        </Association>
+        <Association Name="TwitterStatus_Entities">
+          <End Role="TwitterStatus_Entities_Source" Type="Self.TwitterStatus" Multiplicity="0..1" />
+          <End Role="TwitterStatus_Entities_Target" Type="Self.TwitterEntity" Multiplicity="*" />
+        </Association>
+        <Association Name="TwitterGeo_Coordinates">
+          <End Role="TwitterGeo_Coordinates_Source" Type="Self.TwitterGeo" Multiplicity="0..1" />
+          <End Role="TwitterGeo_Coordinates_Target" Type="Self.Coordinate" Multiplicity="*" />
+        </Association>
+        <Association Name="TwitterStatus_Geo">
+          <End Role="TwitterStatus_Geo_Source" Type="Self.TwitterStatus" Multiplicity="*" />
+          <End Role="TwitterStatus_Geo_Target" Type="Self.TwitterGeo" Multiplicity="0..1" />
+        </Association>
+        <Association Name="TwitterBoundingBox_Coordinates">
+          <End Role="TwitterBoundingBox_Coordinates_Source" Type="Self.TwitterBoundingBox" Multiplicity="0..1" />
+          <End Role="TwitterBoundingBox_Coordinates_Target" Type="Self.Coordinate" Multiplicity="*" />
+        </Association>
+        <Association Name="TwitterPlace_BoundingBox">
+          <End Role="TwitterPlace_BoundingBox_Source" Type="Self.TwitterPlace" Multiplicity="*" />
+          <End Role="TwitterPlace_BoundingBox_Target" Type="Self.TwitterBoundingBox" Multiplicity="0..1" />
+        </Association>
+        <Association Name="TwitterStatus_Place">
+          <End Role="TwitterStatus_Place_Source" Type="Self.TwitterStatus" Multiplicity="*" />
+          <End Role="TwitterStatus_Place_Target" Type="Self.TwitterPlace" Multiplicity="0..1" />
+        </Association>
+        <Association Name="TwitterStatus_QuotedStatus">
+          <End Role="TwitterStatus_QuotedStatus_Source" Type="Self.TwitterStatus" Multiplicity="*" />
+          <End Role="TwitterStatus_QuotedStatus_Target" Type="Self.TwitterStatus" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterStatus_QuotedStatus_Target">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TwitterStatus_QuotedStatus_Source">
+              <PropertyRef Name="QuotedStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TwitterStatus_RetweetedStatus">
+          <End Role="TwitterStatus_RetweetedStatus_Source" Type="Self.TwitterStatus" Multiplicity="*" />
+          <End Role="TwitterStatus_RetweetedStatus_Target" Type="Self.TwitterStatus" Multiplicity="0..1" />
+        </Association>
+        <Association Name="TwitterUser_Status">
+          <End Role="TwitterUser_Status_Source" Type="Self.TwitterUser" Multiplicity="0..1" />
+          <End Role="TwitterUser_Status_Target" Type="Self.TwitterStatus" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="TwitterContext" customannotation:UseClrTypes="true">
+          <EntitySet Name="Friendships" EntityType="Self.Friendship" />
+          <EntitySet Name="Tweets" EntityType="Self.TwitterStatus" />
+          <EntitySet Name="TwitterEntities" EntityType="Self.TwitterEntity" />
+          <EntitySet Name="MediaSizes" EntityType="Self.MediaSize" />
+          <EntitySet Name="TwitterGeos" EntityType="Self.TwitterGeo" />
+          <EntitySet Name="Coordinates" EntityType="Self.Coordinate" />
+          <EntitySet Name="TwitterPlaces" EntityType="Self.TwitterPlace" />
+          <EntitySet Name="TwitterBoundingBoxes" EntityType="Self.TwitterBoundingBox" />
+          <EntitySet Name="Users" EntityType="Self.TwitterUser" />
+          <AssociationSet Name="TwitterMediaEntity_Sizes" Association="Self.TwitterMediaEntity_Sizes">
+            <End Role="TwitterMediaEntity_Sizes_Source" EntitySet="TwitterEntities" />
+            <End Role="TwitterMediaEntity_Sizes_Target" EntitySet="MediaSizes" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterStatus_Entities" Association="Self.TwitterStatus_Entities">
+            <End Role="TwitterStatus_Entities_Source" EntitySet="Tweets" />
+            <End Role="TwitterStatus_Entities_Target" EntitySet="TwitterEntities" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterGeo_Coordinates" Association="Self.TwitterGeo_Coordinates">
+            <End Role="TwitterGeo_Coordinates_Source" EntitySet="TwitterGeos" />
+            <End Role="TwitterGeo_Coordinates_Target" EntitySet="Coordinates" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterStatus_Geo" Association="Self.TwitterStatus_Geo">
+            <End Role="TwitterStatus_Geo_Source" EntitySet="Tweets" />
+            <End Role="TwitterStatus_Geo_Target" EntitySet="TwitterGeos" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterBoundingBox_Coordinates" Association="Self.TwitterBoundingBox_Coordinates">
+            <End Role="TwitterBoundingBox_Coordinates_Source" EntitySet="TwitterBoundingBoxes" />
+            <End Role="TwitterBoundingBox_Coordinates_Target" EntitySet="Coordinates" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterPlace_BoundingBox" Association="Self.TwitterPlace_BoundingBox">
+            <End Role="TwitterPlace_BoundingBox_Source" EntitySet="TwitterPlaces" />
+            <End Role="TwitterPlace_BoundingBox_Target" EntitySet="TwitterBoundingBoxes" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterStatus_Place" Association="Self.TwitterStatus_Place">
+            <End Role="TwitterStatus_Place_Source" EntitySet="Tweets" />
+            <End Role="TwitterStatus_Place_Target" EntitySet="TwitterPlaces" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterStatus_QuotedStatus" Association="Self.TwitterStatus_QuotedStatus">
+            <End Role="TwitterStatus_QuotedStatus_Source" EntitySet="Tweets" />
+            <End Role="TwitterStatus_QuotedStatus_Target" EntitySet="Tweets" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterStatus_RetweetedStatus" Association="Self.TwitterStatus_RetweetedStatus">
+            <End Role="TwitterStatus_RetweetedStatus_Source" EntitySet="Tweets" />
+            <End Role="TwitterStatus_RetweetedStatus_Target" EntitySet="Tweets" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterUser_Status" Association="Self.TwitterUser_Status">
+            <End Role="TwitterUser_Status_Source" EntitySet="Users" />
+            <End Role="TwitterUser_Status_Target" EntitySet="Tweets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </ConceptualModels>
+    <Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CodeFirstDatabase" CdmEntityContainer="TwitterContext">
+          <EntitySetMapping Name="Friendships">
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.Friendship">
+              <MappingFragment StoreEntitySet="Friendship">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FollowerId" ColumnName="FollowerId" />
+                <ScalarProperty Name="WhenSaved" ColumnName="WhenSaved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tweets">
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.TwitterStatus">
+              <MappingFragment StoreEntitySet="TwitterStatus">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StringId" ColumnName="StringId" />
+                <ScalarProperty Name="IsTruncated" ColumnName="IsTruncated" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="InReplyToScreenName" ColumnName="InReplyToScreenName" />
+                <ScalarProperty Name="InReplyToUserId" ColumnName="InReplyToUserId" />
+                <ScalarProperty Name="InReplyToStatusId" ColumnName="InReplyToStatusId" />
+                <ScalarProperty Name="IsFavorited" ColumnName="IsFavorited" />
+                <ScalarProperty Name="FavoriteCountString" ColumnName="FavoriteCountString" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="RetweetCountString" ColumnName="RetweetCountString" />
+                <ScalarProperty Name="Retweeted" ColumnName="Retweeted" />
+                <ScalarProperty Name="QuotedStatusId" ColumnName="QuotedStatusId" />
+                <ScalarProperty Name="QuotedStatusStringId" ColumnName="QuotedStatusStringId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TwitterEntities">
+            <EntityTypeMapping TypeName="IsTypeOf(AirlineTwitterDataCollection.TwitterEntity)">
+              <MappingFragment StoreEntitySet="TwitterEntity">
+                <ScalarProperty Name="TwitterEntityId" ColumnName="TwitterEntityId" />
+                <ScalarProperty Name="StartIndex" ColumnName="StartIndex" />
+                <ScalarProperty Name="EndIndex" ColumnName="EndIndex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.TwitterHashTagEntity">
+              <MappingFragment StoreEntitySet="TwitterEntity">
+                <ScalarProperty Name="TwitterEntityId" ColumnName="TwitterEntityId" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <Condition Value="TwitterHashTagEntity" ColumnName="Discriminator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.TwitterMentionEntity">
+              <MappingFragment StoreEntitySet="TwitterEntity">
+                <ScalarProperty Name="TwitterEntityId" ColumnName="TwitterEntityId" />
+                <ScalarProperty Name="ScreenName" ColumnName="ScreenName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <Condition Value="TwitterMentionEntity" ColumnName="Discriminator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.TwitterUrlEntity">
+              <MappingFragment StoreEntitySet="TwitterEntity">
+                <ScalarProperty Name="TwitterEntityId" ColumnName="TwitterEntityId" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="DisplayUrl" ColumnName="DisplayUrl" />
+                <ScalarProperty Name="ExpandedUrl" ColumnName="ExpandedUrl" />
+                <Condition Value="TwitterUrlEntity" ColumnName="Discriminator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.TwitterMediaEntity">
+              <MappingFragment StoreEntitySet="TwitterEntity">
+                <ScalarProperty Name="TwitterEntityId" ColumnName="TwitterEntityId" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="DisplayUrl" ColumnName="DisplayUrl" />
+                <ScalarProperty Name="ExpandedUrl" ColumnName="ExpandedUrl" />
+                <ScalarProperty Name="MediaType" ColumnName="MediaType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdString" ColumnName="IdString" />
+                <ScalarProperty Name="MediaUrl" ColumnName="MediaUrl" />
+                <ScalarProperty Name="MediaUrlSecure" ColumnName="MediaUrlSecure" />
+                <Condition Value="TwitterMediaEntity" ColumnName="Discriminator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.TwitterEntity">
+              <MappingFragment StoreEntitySet="TwitterEntity">
+                <ScalarProperty Name="TwitterEntityId" ColumnName="TwitterEntityId" />
+                <Condition Value="TwitterEntity" ColumnName="Discriminator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MediaSizes">
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.MediaSize">
+              <MappingFragment StoreEntitySet="MediaSize">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Resize" ColumnName="Resize" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TwitterGeos">
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.TwitterGeo">
+              <MappingFragment StoreEntitySet="TwitterGeo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ShapeType" ColumnName="ShapeType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coordinates">
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.Coordinate">
+              <MappingFragment StoreEntitySet="Coordinate">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TwitterPlaces">
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.TwitterPlace">
+              <MappingFragment StoreEntitySet="TwitterPlace">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="PlaceType" ColumnName="PlaceType" />
+                <ScalarProperty Name="DataAddress" ColumnName="DataAddress" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Locality" ColumnName="Locality" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Iso3CountryCode" ColumnName="Iso3CountryCode" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AppIds" ColumnName="AppIds" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TwitterBoundingBoxes">
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.TwitterBoundingBox">
+              <MappingFragment StoreEntitySet="TwitterBoundingBox">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="AirlineTwitterDataCollection.TwitterUser">
+              <MappingFragment StoreEntitySet="TwitterUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StringId" ColumnName="StringId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsDefaultProfile" ColumnName="IsDefaultProfile" />
+                <ScalarProperty Name="IsDefaultProfileImage" ColumnName="IsDefaultProfileImage" />
+                <ScalarProperty Name="IsTranslator" ColumnName="IsTranslator" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="NumberOfFollowers" ColumnName="NumberOfFollowers" />
+                <ScalarProperty Name="NumberOfStatuses" ColumnName="NumberOfStatuses" />
+                <ScalarProperty Name="NumberOfFriends" ColumnName="NumberOfFriends" />
+                <ScalarProperty Name="IsContributorsEnabled" ColumnName="IsContributorsEnabled" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="ScreenName" ColumnName="ScreenName" />
+                <ScalarProperty Name="NumberOfFavorites" ColumnName="NumberOfFavorites" />
+                <ScalarProperty Name="IsProtected" ColumnName="IsProtected" />
+                <ScalarProperty Name="IsGeoEnabled" ColumnName="IsGeoEnabled" />
+                <ScalarProperty Name="CountriesWithheld" ColumnName="CountriesWithheld" />
+                <ScalarProperty Name="WithheldScope" ColumnName="WithheldScope" />
+                <ScalarProperty Name="TimeZoneOffset" ColumnName="TimeZoneOffset" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="ListedCount" ColumnName="ListedCount" />
+                <ScalarProperty Name="FollowRequestSent" ColumnName="FollowRequestSent" />
+                <ScalarProperty Name="Verified" ColumnName="Verified" />
+                <ScalarProperty Name="ProfileBackgroundColorString" ColumnName="ProfileBackgroundColorString" />
+                <ScalarProperty Name="IsProfileBackgroundTiled" ColumnName="IsProfileBackgroundTiled" />
+                <ScalarProperty Name="ProfileLinkColorString" ColumnName="ProfileLinkColorString" />
+                <ScalarProperty Name="ProfileBackgroundImageLocation" ColumnName="ProfileBackgroundImageLocation" />
+                <ScalarProperty Name="UseProfileBackgroundImage" ColumnName="UseProfileBackgroundImage" />
+                <ScalarProperty Name="ProfileBannerLocation" ColumnName="ProfileBannerLocation" />
+                <ScalarProperty Name="ProfileTextColorString" ColumnName="ProfileTextColorString" />
+                <ScalarProperty Name="ProfileImageLocation" ColumnName="ProfileImageLocation" />
+                <ScalarProperty Name="ProfileImageSecureLocation" ColumnName="ProfileImageSecureLocation" />
+                <ScalarProperty Name="ProfileSidebarBorderColorString" ColumnName="ProfileSidebarBorderColorString" />
+                <ScalarProperty Name="ProfileSidebarFillColorString" ColumnName="ProfileSidebarFillColorString" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TwitterMediaEntity_Sizes" TypeName="AirlineTwitterDataCollection.TwitterMediaEntity_Sizes" StoreEntitySet="MediaSize">
+            <EndProperty Name="TwitterMediaEntity_Sizes_Source">
+              <ScalarProperty Name="TwitterEntityId" ColumnName="TwitterMediaEntity_TwitterEntityId" />
+            </EndProperty>
+            <EndProperty Name="TwitterMediaEntity_Sizes_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="TwitterMediaEntity_TwitterEntityId" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TwitterStatus_Entities" TypeName="AirlineTwitterDataCollection.TwitterStatus_Entities" StoreEntitySet="TwitterEntity">
+            <EndProperty Name="TwitterStatus_Entities_Source">
+              <ScalarProperty Name="Id" ColumnName="TwitterStatus_Id" />
+            </EndProperty>
+            <EndProperty Name="TwitterStatus_Entities_Target">
+              <ScalarProperty Name="TwitterEntityId" ColumnName="TwitterEntityId" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="TwitterStatus_Id" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TwitterGeo_Coordinates" TypeName="AirlineTwitterDataCollection.TwitterGeo_Coordinates" StoreEntitySet="Coordinate">
+            <EndProperty Name="TwitterGeo_Coordinates_Source">
+              <ScalarProperty Name="Id" ColumnName="TwitterGeo_Id" />
+            </EndProperty>
+            <EndProperty Name="TwitterGeo_Coordinates_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="TwitterGeo_Id" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TwitterStatus_Geo" TypeName="AirlineTwitterDataCollection.TwitterStatus_Geo" StoreEntitySet="TwitterStatus">
+            <EndProperty Name="TwitterStatus_Geo_Target">
+              <ScalarProperty Name="Id" ColumnName="Geo_Id" />
+            </EndProperty>
+            <EndProperty Name="TwitterStatus_Geo_Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Geo_Id" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TwitterBoundingBox_Coordinates" TypeName="AirlineTwitterDataCollection.TwitterBoundingBox_Coordinates" StoreEntitySet="Coordinate">
+            <EndProperty Name="TwitterBoundingBox_Coordinates_Source">
+              <ScalarProperty Name="Id" ColumnName="TwitterBoundingBox_Id" />
+            </EndProperty>
+            <EndProperty Name="TwitterBoundingBox_Coordinates_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="TwitterBoundingBox_Id" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TwitterPlace_BoundingBox" TypeName="AirlineTwitterDataCollection.TwitterPlace_BoundingBox" StoreEntitySet="TwitterPlace">
+            <EndProperty Name="TwitterPlace_BoundingBox_Target">
+              <ScalarProperty Name="Id" ColumnName="BoundingBox_Id" />
+            </EndProperty>
+            <EndProperty Name="TwitterPlace_BoundingBox_Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="BoundingBox_Id" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TwitterStatus_Place" TypeName="AirlineTwitterDataCollection.TwitterStatus_Place" StoreEntitySet="TwitterStatus">
+            <EndProperty Name="TwitterStatus_Place_Target">
+              <ScalarProperty Name="Id" ColumnName="Place_Id" />
+            </EndProperty>
+            <EndProperty Name="TwitterStatus_Place_Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Place_Id" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TwitterStatus_RetweetedStatus" TypeName="AirlineTwitterDataCollection.TwitterStatus_RetweetedStatus" StoreEntitySet="TwitterStatus">
+            <EndProperty Name="TwitterStatus_RetweetedStatus_Target">
+              <ScalarProperty Name="Id" ColumnName="RetweetedStatus_Id" />
+            </EndProperty>
+            <EndProperty Name="TwitterStatus_RetweetedStatus_Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="RetweetedStatus_Id" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TwitterUser_Status" TypeName="AirlineTwitterDataCollection.TwitterUser_Status" StoreEntitySet="TwitterStatus">
+            <EndProperty Name="TwitterUser_Status_Source">
+              <ScalarProperty Name="Id" ColumnName="User_Id" />
+            </EndProperty>
+            <EndProperty Name="TwitterUser_Status_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="User_Id" IsNull="false" />
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </Mappings>
+    <StorageModels>
+      <Schema Namespace="CodeFirstDatabaseSchema" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Friendship">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="FollowerId" />
+          </Key>
+          <Property Name="UserId" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="FollowerId" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="WhenSaved" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TwitterStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="StringId" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="IsTruncated" Type="bit" Nullable="true" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Source" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="InReplyToScreenName" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="InReplyToUserId" Type="decimal" Precision="18" Scale="2" Nullable="true" />
+          <Property Name="InReplyToStatusId" Type="decimal" Precision="18" Scale="2" Nullable="true" />
+          <Property Name="IsFavorited" Type="bit" Nullable="true" />
+          <Property Name="FavoriteCountString" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="RetweetCountString" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Retweeted" Type="bit" Nullable="false" />
+          <Property Name="QuotedStatusId" Type="decimal" customannotation:Index="{ Name: IX_QuotedStatusId, Order: 0 }" Precision="18" Scale="2" Nullable="true" />
+          <Property Name="QuotedStatusStringId" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Geo_Id" Type="int" customannotation:Index="{ Name: IX_Geo_Id, Order: 0 }" Nullable="true" />
+          <Property Name="Place_Id" Type="nvarchar" customannotation:Index="{ Name: IX_Place_Id, Order: 0 }" MaxLength="128" Nullable="true" />
+          <Property Name="RetweetedStatus_Id" Type="decimal" customannotation:Index="{ Name: IX_RetweetedStatus_Id, Order: 0 }" Precision="18" Scale="2" Nullable="true" />
+          <Property Name="User_Id" Type="decimal" customannotation:Index="{ Name: IX_User_Id, Order: 0 }" Precision="18" Scale="2" Nullable="true" />
+        </EntityType>
+        <EntityType Name="TwitterEntity">
+          <Key>
+            <PropertyRef Name="TwitterEntityId" />
+          </Key>
+          <Property Name="TwitterEntityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartIndex" Type="int" Nullable="false" />
+          <Property Name="EndIndex" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ScreenName" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="UserId" Type="decimal" Precision="18" Scale="2" Nullable="true" />
+          <Property Name="Url" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="DisplayUrl" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ExpandedUrl" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="MediaType" Type="int" Nullable="true" />
+          <Property Name="Id" Type="decimal" Precision="18" Scale="2" Nullable="true" />
+          <Property Name="IdString" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="MediaUrl" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="MediaUrlSecure" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="TwitterStatus_Id" Type="decimal" customannotation:Index="{ Name: IX_TwitterStatus_Id, Order: 0 }" Precision="18" Scale="2" Nullable="true" />
+        </EntityType>
+        <EntityType Name="MediaSize">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Size" Type="int" Nullable="false" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="Height" Type="int" Nullable="false" />
+          <Property Name="Resize" Type="int" Nullable="false" />
+          <Property Name="TwitterMediaEntity_TwitterEntityId" Type="int" customannotation:Index="{ Name: IX_TwitterMediaEntity_TwitterEntityId, Order: 0 }" Nullable="true" />
+        </EntityType>
+        <EntityType Name="TwitterGeo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShapeType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Coordinate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Latitude" Type="float" Nullable="false" />
+          <Property Name="Longitude" Type="float" Nullable="false" />
+          <Property Name="TwitterGeo_Id" Type="int" customannotation:Index="{ Name: IX_TwitterGeo_Id, Order: 0 }" Nullable="true" />
+          <Property Name="TwitterBoundingBox_Id" Type="int" customannotation:Index="{ Name: IX_TwitterBoundingBox_Id, Order: 0 }" Nullable="true" />
+        </EntityType>
+        <EntityType Name="TwitterPlace">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CountryCode" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="PlaceType" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="DataAddress" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Country" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="StreetAddress" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="PostalCode" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Phone" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Locality" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Region" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Iso3CountryCode" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="FullName" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="AppIds" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="BoundingBox_Id" Type="int" customannotation:Index="{ Name: IX_BoundingBox_Id, Order: 0 }" Nullable="true" />
+        </EntityType>
+        <EntityType Name="TwitterBoundingBox">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar(max)" Nullable="true" />
+        </EntityType>
+        <EntityType Name="TwitterUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="StringId" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Location" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="IsDefaultProfile" Type="bit" Nullable="false" />
+          <Property Name="IsDefaultProfileImage" Type="bit" Nullable="false" />
+          <Property Name="IsTranslator" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="true" />
+          <Property Name="TimeZone" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="NumberOfFollowers" Type="bigint" Nullable="true" />
+          <Property Name="NumberOfStatuses" Type="bigint" Nullable="false" />
+          <Property Name="NumberOfFriends" Type="bigint" Nullable="false" />
+          <Property Name="IsContributorsEnabled" Type="bit" Nullable="false" />
+          <Property Name="Language" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ScreenName" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="NumberOfFavorites" Type="bigint" Nullable="false" />
+          <Property Name="IsProtected" Type="bit" Nullable="false" />
+          <Property Name="IsGeoEnabled" Type="bit" Nullable="true" />
+          <Property Name="CountriesWithheld" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="WithheldScope" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="TimeZoneOffset" Type="float" Nullable="true" />
+          <Property Name="Website" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ListedCount" Type="int" Nullable="false" />
+          <Property Name="FollowRequestSent" Type="bit" Nullable="true" />
+          <Property Name="Verified" Type="bit" Nullable="true" />
+          <Property Name="ProfileBackgroundColorString" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="IsProfileBackgroundTiled" Type="bit" Nullable="true" />
+          <Property Name="ProfileLinkColorString" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ProfileBackgroundImageLocation" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="UseProfileBackgroundImage" Type="bit" Nullable="false" />
+          <Property Name="ProfileBannerLocation" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ProfileTextColorString" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ProfileImageLocation" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ProfileImageSecureLocation" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ProfileSidebarBorderColorString" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ProfileSidebarFillColorString" Type="nvarchar(max)" Nullable="true" />
+        </EntityType>
+        <Association Name="TwitterMediaEntity_Sizes">
+          <End Role="TwitterEntity" Type="Self.TwitterEntity" Multiplicity="0..1" />
+          <End Role="MediaSize" Type="Self.MediaSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterEntity">
+              <PropertyRef Name="TwitterEntityId" />
+            </Principal>
+            <Dependent Role="MediaSize">
+              <PropertyRef Name="TwitterMediaEntity_TwitterEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TwitterStatus_Entities">
+          <End Role="TwitterStatus" Type="Self.TwitterStatus" Multiplicity="0..1" />
+          <End Role="TwitterEntity" Type="Self.TwitterEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TwitterEntity">
+              <PropertyRef Name="TwitterStatus_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TwitterGeo_Coordinates">
+          <End Role="TwitterGeo" Type="Self.TwitterGeo" Multiplicity="0..1" />
+          <End Role="Coordinate" Type="Self.Coordinate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterGeo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Coordinate">
+              <PropertyRef Name="TwitterGeo_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TwitterStatus_Geo">
+          <End Role="TwitterGeo" Type="Self.TwitterGeo" Multiplicity="0..1" />
+          <End Role="TwitterStatus" Type="Self.TwitterStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterGeo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TwitterStatus">
+              <PropertyRef Name="Geo_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TwitterBoundingBox_Coordinates">
+          <End Role="TwitterBoundingBox" Type="Self.TwitterBoundingBox" Multiplicity="0..1" />
+          <End Role="Coordinate" Type="Self.Coordinate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterBoundingBox">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Coordinate">
+              <PropertyRef Name="TwitterBoundingBox_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TwitterPlace_BoundingBox">
+          <End Role="TwitterBoundingBox" Type="Self.TwitterBoundingBox" Multiplicity="0..1" />
+          <End Role="TwitterPlace" Type="Self.TwitterPlace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterBoundingBox">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TwitterPlace">
+              <PropertyRef Name="BoundingBox_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TwitterStatus_Place">
+          <End Role="TwitterPlace" Type="Self.TwitterPlace" Multiplicity="0..1" />
+          <End Role="TwitterStatus" Type="Self.TwitterStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterPlace">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TwitterStatus">
+              <PropertyRef Name="Place_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TwitterStatus_QuotedStatus">
+          <End Role="TwitterStatus" Type="Self.TwitterStatus" Multiplicity="0..1" />
+          <End Role="TwitterStatusSelf" Type="Self.TwitterStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TwitterStatusSelf">
+              <PropertyRef Name="QuotedStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TwitterStatus_RetweetedStatus">
+          <End Role="TwitterStatus" Type="Self.TwitterStatus" Multiplicity="0..1" />
+          <End Role="TwitterStatusSelf" Type="Self.TwitterStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TwitterStatusSelf">
+              <PropertyRef Name="RetweetedStatus_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TwitterUser_Status">
+          <End Role="TwitterUser" Type="Self.TwitterUser" Multiplicity="0..1" />
+          <End Role="TwitterStatus" Type="Self.TwitterStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TwitterUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TwitterStatus">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CodeFirstDatabase">
+          <EntitySet Name="Friendship" EntityType="Self.Friendship" Schema="new" Table="Friendships" />
+          <EntitySet Name="TwitterStatus" EntityType="Self.TwitterStatus" Schema="new" Table="TwitterStatus" />
+          <EntitySet Name="TwitterEntity" EntityType="Self.TwitterEntity" Schema="new" Table="TwitterEntities" />
+          <EntitySet Name="MediaSize" EntityType="Self.MediaSize" Schema="new" Table="MediaSizes" />
+          <EntitySet Name="TwitterGeo" EntityType="Self.TwitterGeo" Schema="new" Table="TwitterGeos" />
+          <EntitySet Name="Coordinate" EntityType="Self.Coordinate" Schema="new" Table="Coordinates" />
+          <EntitySet Name="TwitterPlace" EntityType="Self.TwitterPlace" Schema="new" Table="TwitterPlaces" />
+          <EntitySet Name="TwitterBoundingBox" EntityType="Self.TwitterBoundingBox" Schema="new" Table="TwitterBoundingBoxes" />
+          <EntitySet Name="TwitterUser" EntityType="Self.TwitterUser" Schema="new" Table="TwitterUsers" />
+          <AssociationSet Name="TwitterMediaEntity_Sizes" Association="Self.TwitterMediaEntity_Sizes">
+            <End Role="TwitterEntity" EntitySet="TwitterEntity" />
+            <End Role="MediaSize" EntitySet="MediaSize" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterStatus_Entities" Association="Self.TwitterStatus_Entities">
+            <End Role="TwitterStatus" EntitySet="TwitterStatus" />
+            <End Role="TwitterEntity" EntitySet="TwitterEntity" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterGeo_Coordinates" Association="Self.TwitterGeo_Coordinates">
+            <End Role="TwitterGeo" EntitySet="TwitterGeo" />
+            <End Role="Coordinate" EntitySet="Coordinate" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterStatus_Geo" Association="Self.TwitterStatus_Geo">
+            <End Role="TwitterGeo" EntitySet="TwitterGeo" />
+            <End Role="TwitterStatus" EntitySet="TwitterStatus" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterBoundingBox_Coordinates" Association="Self.TwitterBoundingBox_Coordinates">
+            <End Role="TwitterBoundingBox" EntitySet="TwitterBoundingBox" />
+            <End Role="Coordinate" EntitySet="Coordinate" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterPlace_BoundingBox" Association="Self.TwitterPlace_BoundingBox">
+            <End Role="TwitterBoundingBox" EntitySet="TwitterBoundingBox" />
+            <End Role="TwitterPlace" EntitySet="TwitterPlace" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterStatus_Place" Association="Self.TwitterStatus_Place">
+            <End Role="TwitterPlace" EntitySet="TwitterPlace" />
+            <End Role="TwitterStatus" EntitySet="TwitterStatus" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterStatus_QuotedStatus" Association="Self.TwitterStatus_QuotedStatus">
+            <End Role="TwitterStatus" EntitySet="TwitterStatus" />
+            <End Role="TwitterStatusSelf" EntitySet="TwitterStatus" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterStatus_RetweetedStatus" Association="Self.TwitterStatus_RetweetedStatus">
+            <End Role="TwitterStatus" EntitySet="TwitterStatus" />
+            <End Role="TwitterStatusSelf" EntitySet="TwitterStatus" />
+          </AssociationSet>
+          <AssociationSet Name="TwitterUser_Status" Association="Self.TwitterUser_Status">
+            <End Role="TwitterUser" EntitySet="TwitterUser" />
+            <End Role="TwitterStatus" EntitySet="TwitterStatus" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </StorageModels>
+  </Runtime>
+  <Designer>
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="ProcessDependentTemplatesOnSave" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <Diagrams >
+      <Diagram DiagramId="ad99d202f3df42d2b2a41b9a7e4e0861" Name="Diagram1" DisplayType="true" ZoomLevel="100">
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.Friendship" Width="2.5" PointX="5.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.TwitterStatus" Width="1.5" PointX="3.875" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.TwitterEntity" Width="1.5" PointX="7.625" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.TwitterHashTagEntity" Width="1.5" PointX="5.875" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.TwitterMentionEntity" Width="1.5" PointX="7.875" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.TwitterUrlEntity" Width="1.5" PointX="9.875" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.TwitterMediaEntity" Width="1.5" PointX="9.875" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.MediaSize" Width="1.5" PointX="20.625" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.TwitterGeo" Width="1.5" PointX="6.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.Coordinate" Width="1.5" PointX="6.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.TwitterPlace" Width="1.5" PointX="3.375" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.TwitterBoundingBox" Width="1.5" PointX="3.375" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirlineTwitterDataCollection.TwitterUser" Width="1.5" PointX="1" PointY="0.5" IsExpanded="true" />
+        <InheritanceConnector EntityType="AirlineTwitterDataCollection.TwitterHashTagEntity" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="AirlineTwitterDataCollection.TwitterMentionEntity" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="AirlineTwitterDataCollection.TwitterUrlEntity" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="AirlineTwitterDataCollection.TwitterMediaEntity" ManuallyRouted="false" />
+        <AssociationConnector Association="AirlineTwitterDataCollection.TwitterMediaEntity_Sizes" ManuallyRouted="false" />
+        <AssociationConnector Association="AirlineTwitterDataCollection.TwitterStatus_Entities" ManuallyRouted="false" />
+        <AssociationConnector Association="AirlineTwitterDataCollection.TwitterGeo_Coordinates" ManuallyRouted="false" />
+        <AssociationConnector Association="AirlineTwitterDataCollection.TwitterStatus_Geo" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="AirlineTwitterDataCollection.TwitterBoundingBox_Coordinates" ManuallyRouted="false" />
+        <AssociationConnector Association="AirlineTwitterDataCollection.TwitterPlace_BoundingBox" ManuallyRouted="false" />
+        <AssociationConnector Association="AirlineTwitterDataCollection.TwitterStatus_Place" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="AirlineTwitterDataCollection.TwitterStatus_QuotedStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="AirlineTwitterDataCollection.TwitterStatus_RetweetedStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="AirlineTwitterDataCollection.TwitterUser_Status" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</Edmx>
